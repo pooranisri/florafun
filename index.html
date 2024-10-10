@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Virtual Garden</title>
+<style>
+body { font-family: sans-serif; }
+#garden { width: 400px; height: 300px; border: 1px solid green; position: relative; background-color: lightgreen; }
+.plant { position: absolute; width: 30px; height: 30px; background-size: cover; cursor: pointer; }
+.seed { background-image: url('seed.png'); } /* Replace with actual image URLs */
+.sprout { background-image: url('sprout.png'); }
+.flower { background-image: url('flower.png'); }
+#tools { margin-top: 10px; }
+.weather { display: inline-block; margin-right: 10px; }
+</style>
+</head>
+<body>
+
+<h1>My Virtual Garden</h1>
+
+<div id="garden"></div>
+
+<div id="tools">
+  <button onclick="plantSeed()">Plant Seed</button>
+  <button onclick="water()">Water</button>
+  <div class="weather">Weather: <span id="weather">Sunny</span></div>
+  <div class="season">Season: <span id="season">Spring</span></div>
+</div>
+
+<script>
+const garden = document.getElementById('garden');
+let plants = [];
+let weather = 'Sunny';
+let season = 'Spring';
+const seasons = ['Spring', 'Summer', 'Autumn', 'Winter'];
+let currentSeason = 0;
+
+function plantSeed() {
+  const plant = document.createElement('div');
+  plant.className = 'plant seed';
+  plant.style.left = Math.random() * (garden.offsetWidth - 30) + 'px';
+  plant.style.top = Math.random() * (garden.offsetHeight - 30) + 'px';
+  garden.appendChild(plant);
+  plants.push({ element: plant, stage: 'seed', watered: false });
+}
+
+function water() {
+  plants.forEach(p => p.watered = true);
+}
+
+function growPlants() {
+  plants.forEach(plant => {
+    if (plant.stage === 'seed' && plant.watered) {
+      plant.element.className = 'plant sprout';
+      plant.stage = 'sprout';
+      plant.watered = false;
+    } else if (plant.stage === 'sprout' && plant.watered) {
+      plant.element.className = 'plant flower';
+      plant.stage = 'flower';
+       plant.watered = false;
+    }
+  });
+}
+
+setInterval(() => {
+  growPlants();
+
+  // Simulate weather and seasonal changes (simplified example)
+  if (Math.random() < 0.1) { // 10% chance of weather change
+    weather = (weather === 'Sunny') ? 'Rainy' : 'Sunny';
+    document.getElementById('weather').textContent = weather;
+  }
+
+  if (Math.random() < 0.05) { // 5% chance of season change
+    currentSeason = (currentSeason + 1) % seasons.length;
+    season = seasons[currentSeason];
+    document.getElementById('season').textContent = season;
+  }
+}, 1000);
+
+
+</script>
+
+</body>
+</html>
