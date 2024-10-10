@@ -1,9 +1,12 @@
 {
     "scripts": {
-      "start": "servor --reload"
+        "start": "servor --reload"
     },
     "dependencies": {
-      "servor": "^4.0.2"
+        "jsdom": "^25.0.1",
+        "servor": "^4.0.2"
+    },
+    "devDependencies": {
+        "jest": "^29.7.0"
     }
-  }
-  
+}
